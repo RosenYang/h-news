@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/RosenYang/h-news/issues"
   },
-  "homepage": "https://github.com/RosenYang/h-news#readme"
+  "homepage": "https://github.com/RosenYang/h-news#readme",
+  "devDependencies": {
+    "webpack": "^3.10.0"
+  }
 }
