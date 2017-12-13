@@ -1,48 +1,36 @@
 /*
 * @Author: yangjg
-* @Date:   2017-12-13 10:56:59
-* @Last Modified by:   yangjg
-* @Last Modified time: 2017-12-13 10:58:30
+* @Date:   2017-11-29 11:56:10
+ * @Last modified by:
+ * @Last modified time: 2017-12-10T19:54:35+08:00
 */
 var debug = process.env.NODE_ENV !== "production";
 var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
-    context: __dirname+'./src',
-    // devtool: debug
-    //     ? "inline-sourcemap"
-    //     : null,
-    entry: "/js/root.js",
-    module: {
-        loaders: [
-            {
-                test: /\.js?$/,
-                exclude: /(node_modules)/,
-                loader: 'babel-loader',
-                query: {
-                    presets: [
-                        'react', 'es2015'
-                    ],
-                    plugins: ['react-html-attrs'], //添加组件的插件配置
-                }
-            },
-            //下面是使用 ant-design 的配置文件
-            {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
-            }
-        ]
-    },
-    output: {
-        path: __dirname,
-        filename: "./src/bundle.js"
-    },
-    // plugins: debug
-    //     ? []
-    //     : [
-    //         new webpack.optimize.DedupePlugin(),
-    //         new webpack.optimize.OccurenceOrderPlugin(),
-    //         new webpack.optimize.UglifyJsPlugin({mangle: false, sourcemap: false})
-    //     ]
+  context: path.join(__dirname),
+  // devtool: debug ? "inline-sourcemap" : null,
+  entry: "./src/js/index.js",
+  module: {
+    loaders: [
+      {
+        test: /\.js?$/,
+        exclude: /(node_modules)/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['react', 'es2015']
+        }
+      }
+    ]
+  },
+  output: {
+    path: __dirname,
+    filename: "./src/bundle.js"
+  },
+  // plugins: debug ? [] : [
+  //   new webpack.optimize.DedupePlugin(),
+  //   new webpack.optimize.OccurenceOrderPlugin(),
+  //   new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+  // ],
 };
