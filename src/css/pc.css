@@ -1,0 +1,20 @@
+/**
+ * @Date:   2017-12-05T12:51:10+08:00
+ * @Email:  rosen_yang@sina.com
+ * @Last modified time: 2017-12-05T14:36:06+08:00
+ */
+.logo{
+    align-items: center;
+    display: flex;
+}
+.logo img{
+    width: 48px;
+    height: 48px;
+}
+.logo span{
+    font-size: 24px;
+    padding-left: 5px;
+}
+.footer{
+    text-align: center;
+}

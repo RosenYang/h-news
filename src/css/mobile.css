@@ -1,0 +1,33 @@
+/**
+ * @Date:   2017-12-05T13:47:07+08:00
+ * @Email:  rosen_yang@sina.com
+ * @Last modified time: 2017-12-05T13:54:11+08:00
+ */
+ html{
+     font-size: 50px;
+ }
+ #mobileheader{
+     flex:1;
+     background: #f6f6f6;
+ }
+ #mobileheader header{
+     border-bottom:1px solid #2db7f5;
+     padding-top: 10px;
+ }
+ #mobileheader header img{
+     height: 50px;
+
+ }
+ #mobileheader header span{
+     font-size: 35px;
+     vertical-align: top;
+     padding-left: 6px;
+     color:#2db7f5;
+ }
+#mobileheader i{
+     font-size: 0.5rem;
+     float: right;
+     margin-right: 0.3rem;
+     margin-top: 0.3rem;
+     color: #2db7f5;
+}
