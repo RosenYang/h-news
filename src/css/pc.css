@@ -1,7 +1,7 @@
 /**
  * @Date:   2017-12-05T12:51:10+08:00
  * @Email:  rosen_yang@sina.com
- * @Last modified time: 2017-12-05T14:36:06+08:00
+ * @Last modified time: 2017-12-14T20:02:28+08:00
  */
 .logo{
     align-items: center;
@@ -17,4 +17,7 @@
 }
 .footer{
     text-align: center;
+}
+.register{
+    float: right !important;
 }

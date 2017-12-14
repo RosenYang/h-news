@@ -1,7 +1,7 @@
 /**
  * @Date:   2017-12-05T11:10:35+08:00
  * @Email:  rosen_yang@sina.com
- * @Last modified time: 2017-12-10T19:57:27+08:00
+ * @Last modified time: 2017-12-14T22:11:29+08:00
  */
 import React from 'react';
 import {
@@ -16,6 +16,7 @@ import {
     Button,
     Modal
 } from 'antd';
+import {Link} from 'react-router';
 /* 常量 */
 const TabPane = Tabs.TabPane;
 const SubMenu = Menu.SubMenu;
@@ -34,6 +35,12 @@ class PCHeader extends React.Component {
             userId: 0
         }
     };
+    componentWillMount() {
+        if (localStorage.userId !== "") {
+            this.setState({hasLogined: true});
+            this.setState({userNickName: localStorage.NickUserName, userId: localStorage.userId});
+        }
+    }
     //控制模态框显示
     setModalVisible(value) {
         this.setState({modalVisible: value});
@@ -52,25 +59,43 @@ class PCHeader extends React.Component {
             method: 'GET'
         };
         var formData = this.props.form.getFieldsValue();
-        let url = "http://newsapi.gugujiankong.com/Handler.ashx?action=register&username=" + formData.r_userName + "&password=" + formData.r_password + "&r_confirmPassword=" + formData.r_confirm;
+        let url = "http://newsapi.gugujiankong.com/Handler.ashx?action=" + this.state.action + "&username=" + formData.userName + "&password=" + formData.password + "&r_username=" + formData.r_userName + "&r_password=" + formData.r_password + "&r_confirmPassword=" + formData.r_confirmPassword;
         fetch(url, myFetchOptions).then(response => response.json()).then(json => {
-            this.setState({userNickName: josn.NickUserName, userid: json.UserId});
+            this.setState({userNickName: json.NickUserName, userId: json.UserId});
+            localStorage.userNickName = json.NickUserName;
+            localStorage.userId = json.UserId;
         });
-        message.success('注册成功！');
-        setModalVisible(false);
+        if (this.state.action == "login") {
+            this.setState({hasLogined: true});
+            message.success('登录成功！');
+        } else {
+            message.success('注册成功！');
+        }
+
+        this.setModalVisible(false);
     };
+    //Tab切换登录/注册
+    changeTab(key) {
+        if (key === "1") {
+            this.setState({action: 'login'});
+        } else if (key === "2") {
+            this.setState({action: 'register'})
+        }
+    };
+    //退出登录
+    logout() {
+        localStorage.userId = '';
+        localStorage.userNickName = '';
+        this.setState({hasLogined: false});
+    }
     render() {
         let {getFieldProps} = this.props.form;
         // userShow 此变量用于可视化登录/注册按纽功用
         const userShow = this.state.hasLogined
-            ? <Menu.Item key="logout" class="register">
+            ? <Menu.Item key="logout" className="register">
                     <Button type="primary" htmlType="button">{this.state.userNickName}</Button>
-                    &nbsp;&nbsp;
-                    <link target="_blank">
-                        <Button type="dashed" htmlType="button">个人中心</Button>
-                    </link>
-                    &nbsp;&nbsp;
-                    <Button type="ghost" htmlType="button">退出</Button>
+                    &nbsp;&nbsp; d &nbsp;&nbsp;
+                    <Button type="ghost" htmlType="button" onClick={this.logout.bind(this)}>退出</Button>
                 </Menu.Item>
             : <Menu.Item key="register" class="register">
                 <Icon type="appstore"/>注册/登录
@@ -114,7 +139,18 @@ class PCHeader extends React.Component {
                         {userShow}
                     </Menu>
                     <Modal title="用户中心" wrapClassName="vertical-center-modal" visible={this.state.modalVisible} onCancel={() => this.setModalVisible(false)} onOk={() => this.setModalVisible(false)} okText="关闭">
-                        <Tabs type="card">
+                        <Tabs type="card" onChange={this.changeTab.bind(this)}>
+                            <TabPane tab="登录" key="1">
+                                <Form mode="horizontal" onSubmit={this.handleSubmit.bind(this)}>
+                                    <FormItem label="帐户">
+                                        <Input placeholder="请输入您的帐号" {...getFieldProps('userName')}/>
+                                    </FormItem>
+                                    <FormItem label="密码">
+                                        <Input type="password" placeholder="请输入您的密码" {...getFieldProps('password')}/>
+                                    </FormItem>
+                                    <Button type="primary" htmlType="submit">登录</Button>
+                                </Form>
+                            </TabPane>
                             <TabPane tab="注册" key="2">
                                 <Form mode="horizontal" onSubmit={this.handleSubmit.bind(this)}>
                                     <FormItem label="帐户">
@@ -124,7 +160,7 @@ class PCHeader extends React.Component {
                                         <Input type="password" placeholder="请输入您的密码" {...getFieldProps('r_password')}/>
                                     </FormItem>
                                     <FormItem label="确认密码">
-                                        <Input type="password" placeholder="请再次输入您的密码" {...getFieldProps('r_confirm')}/>
+                                        <Input type="password" placeholder="请再次输入您的密码" {...getFieldProps('r_confirmPassword')}/>
                                     </FormItem>
                                     <Button type="primary" htmlType="submit">注册</Button>
                                 </Form>
